@@ -1,0 +1,18 @@
+version: '2'
+services:
+  bookings:
+    build: ./comments
+    container_name: comment_ms
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "4100:4100"
+  db:
+    image: mongo:3.3
+    container_name: comment_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./backup:/backup:rw
