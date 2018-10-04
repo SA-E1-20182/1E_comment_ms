@@ -2,6 +2,7 @@
 FROM golang:1.6
 
 # Install dependencies
+RUN go get github.com/pilu/fresh
 RUN go get gopkg.in/mgo.v2
 RUN go get github.com/gorilla/mux
 
