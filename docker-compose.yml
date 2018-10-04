@@ -1,6 +1,6 @@
-version: '2'
+version: '2.1'
 services:
-  bookings:
+  comments:
     build: ./comments
     container_name: comment_ms
     depends_on:
