@@ -2,8 +2,7 @@ package controllers
 
 import (
 	"gopkg.in/mgo.v2"
-
-	"../common"
+	"krajono/comments/common"
 )
 
 // Struct used for maintaining HTTP Request Context

@@ -1,16 +1,16 @@
 package controllers
 
 import (
-	"../models"
+	"krajono/comments/models"
 )
 
 type (
 	// For Get - /comments
 	CommentsResource struct {
-		Data []models.Comments `json:"data"`
+		Data [] models.Comment `json:"data"`
 	}
 	// For Post/Put - /comments
-	CommentsResource struct {
-		Data models.Comments `json:"data"`
+	CommentResource struct {
+		Data models.Comment `json:"data"`
 	}
 )

@@ -2,11 +2,13 @@ package routers
 
 import (
 	"github.com/gorilla/mux"
-	"../controllers"
+	"krajono/comments/controllers"
+	"log"
 )
 
-func SetBookingsRouters(router *mux.Router) *mux.Router {
-	router.HandleFunc("/comments", controllers.GetBookings).Methods("GET")
-	router.HandleFunc("/comments", controllers.CreateBooking).Methods("POST")
+func SetCommentsRouters(router *mux.Router) *mux.Router {
+	log.Printf("Set comments routers")
+	router.HandleFunc("/comments", controllers.GetComments).Methods("GET")
+	router.HandleFunc("/comments", controllers.CreateComment).Methods("POST")
 	return router
 }

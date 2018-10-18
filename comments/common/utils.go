@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-
 	"gopkg.in/mgo.v2"
 )
 
@@ -61,8 +60,10 @@ var session *mgo.Session
 
 // Get database session
 func GetSession() *mgo.Session {
+	log.Printf("Getting DbSession")
 	if session == nil {
 		var err error
+		
 		session, err = mgo.DialWithInfo(&mgo.DialInfo{
 			Addrs:    []string{AppConfig.Server},
 			Username: AppConfig.DBUser,
@@ -79,6 +80,8 @@ func GetSession() *mgo.Session {
 // Create database session
 func createDbSession() {
 	var err error
+	log.Printf("Creating DbSession")
+	log.Println(AppConfig)
 	session, err = mgo.DialWithInfo(&mgo.DialInfo{
 		Addrs:    []string{AppConfig.Server},
 		Username: AppConfig.DBUser,
