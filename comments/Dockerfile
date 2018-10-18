@@ -1,5 +1,5 @@
 # golang image where workspace (GOPATH) configured at /go.
-FROM golang:1.6
+FROM golang:1.7
 
 # Install dependencies
 RUN go get github.com/pilu/fresh
@@ -7,16 +7,16 @@ RUN go get gopkg.in/mgo.v2
 RUN go get github.com/gorilla/mux
 
 # copy the local package files to the container workspace
-ADD . /go/src/github.com/mmorejon/cinema/bookings
+ADD . /go/src/krajono/comments
 
 # Setting up working directory
-WORKDIR /go/src/github.com/mmorejon/cinema/bookings
+WORKDIR /go/src/krajono/comments
 
-# Build the bookings command inside the container.
-RUN go install github.com/mmorejon/cinema/bookings
+# Build the comments command inside the container.
+RUN go install .
 
-# Run the bookings microservice when the container starts.
-ENTRYPOINT /go/bin/bookings
+# Run the comments microservice when the container starts.
+ENTRYPOINT /go/bin/comments
 
-# Service listens on port 8080.
-EXPOSE 8080
+# Service listens on port 4100.
+EXPOSE 4100

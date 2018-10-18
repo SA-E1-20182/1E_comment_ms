@@ -15,7 +15,7 @@ func main() {
 	common.StartUp()
 	// Get the mux router object
 	router := routers.InitRoutes()
-
+	log.Printf("end init routes")
 	server := &http.Server{
 		Addr:    common.AppConfig.Server,
 		Handler: router,

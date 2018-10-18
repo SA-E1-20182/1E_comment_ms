@@ -64,7 +64,7 @@ func GetSession() *mgo.Session {
 	if session == nil {
 		var err error
 		session, err = mgo.DialWithInfo(&mgo.DialInfo{
-			Addrs:    []string{AppConfig.MongoDBHost},
+			Addrs:    []string{AppConfig.Server},
 			Username: AppConfig.DBUser,
 			Password: AppConfig.DBPwd,
 			Timeout:  60 * time.Second,
@@ -80,7 +80,7 @@ func GetSession() *mgo.Session {
 func createDbSession() {
 	var err error
 	session, err = mgo.DialWithInfo(&mgo.DialInfo{
-		Addrs:    []string{AppConfig.MongoDBHost},
+		Addrs:    []string{AppConfig.Server},
 		Username: AppConfig.DBUser,
 		Password: AppConfig.DBPwd,
 		Timeout:  60 * time.Second,
