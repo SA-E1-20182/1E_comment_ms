@@ -8,11 +8,11 @@ import (
 type (
 	Comment struct {
 		Id         	bson.ObjectId 	`bson:"_id,omitempty" json:"id"`
-		version_id  int	        	`json:"version_id"`
-		image_id  	int		       	`json:"image_id"`
-		message		string        	`json:"message"`
-		likes		int	        	`json:"likes"`
-		created_by  string     		`json:"created_by"`
-		created_at  time.Time     	`json:"created_at,omitempty"`
+		Version_id  int	        	`json:"version_id"`
+		Image_id  	int		       	`json:"image_id"`
+		Message		string        	`json:"message"`
+		Likes		int	        	`json:"likes"`
+		Created_by  string     		`json:"created_by"`
+		Created_at  time.Time     	`json:"created_at,omitempty"`
 	}
 )

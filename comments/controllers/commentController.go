@@ -1,26 +1,27 @@
 package controllers
 
 import (
-
+	"log"
 	"encoding/json"
 	"net/http"
 	"github.com/gorilla/mux"
 	"krajono/comments/common"
 	"krajono/comments/data"
+	"krajono/comments/models"
 	"gopkg.in/mgo.v2"
 )
 
 // Handler for HTTP Post - "/comments"
 // Create a new Comment document
 func CreateComment(w http.ResponseWriter, r *http.Request) {
-	var dataResource CommentResource
+	var dataResource models.Comment
 	// Decode the incoming Comment json
 	err := json.NewDecoder(r.Body).Decode(&dataResource)
 	if err != nil {
 		common.DisplayAppError(w, err, "Invalid Comment data", 500)
 		return
 	}
-	comment := &dataResource.Data
+	comment := &dataResource
 	// Create new context
 	context := NewContext()
 	defer context.Close()
@@ -35,9 +36,11 @@ func CreateComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Send response back
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(j)
+	log.Println(j)
+	respondWithJson(w, http.StatusCreated, comment)
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+	// w.Write(j)
 }
 
 func GetComments(w http.ResponseWriter, r *http.Request) {
@@ -49,15 +52,17 @@ func GetComments(w http.ResponseWriter, r *http.Request) {
 	// Get all comments
 	comments := repo.GetAll()
 	// Create response data
-	j, err := json.Marshal(CommentsResource{Data: comments})
+	j, err := json.Marshal(comments)
 	if err != nil {
 		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
 		return
 	}
 	// Send response back
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(j)
+	log.Println(j)
+	respondWithJson(w, http.StatusCreated, comments)
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+	// w.Write(j)
 }
 // Handler for HTTP Get - "/comments/{id}"
 // Get comment by id
@@ -119,4 +124,11 @@ func DeleteComment(rw http.ResponseWriter, req *http.Request) {
 		}
 	}
 	rw.WriteHeader(http.StatusNoContent)
+}
+
+func respondWithJson(w http.ResponseWriter, code int, payload interface{}) {
+	response, _ := json.Marshal(payload)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	w.Write(response)
 }

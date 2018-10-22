@@ -13,7 +13,7 @@ type CommentRepository struct {
 func (r *CommentRepository) Create(comment *models.Comment) error {
 	obj_id := bson.NewObjectId()
 	comment.Id = obj_id
-	err := r.C.Insert(&comment)
+	err := r.C.Insert(comment)
 	return err
 }
 
