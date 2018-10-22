@@ -26,7 +26,10 @@ func (r *CommentRepository) GetAll() []models.Comment {
 	}
 	return comments
 }
-
+func (r *CommentRepository) GetById(id string) (comment models.Comment, err error) {
+	err = r.C.FindId(bson.ObjectIdHex(id)).One(&comment)
+	return
+}
 func (r *CommentRepository) Delete(id string) error {
 	err := r.C.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	return err

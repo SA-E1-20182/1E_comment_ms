@@ -3,12 +3,12 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Microservice for Comments
-  description: Go + mongoDB
+  title: Microservicio para Commentarios
+  description: Microservicio para crear uno o más comentarios a una imagen del proyecto
   license:
-    name: Krajono
+    name: Krajono/Comments
 host: 192.168.99.101:4100
-basePath: /comments_ms/resources
+basePath: /comments_ms/
 schemes:
   - http
 consumes:
@@ -18,15 +18,15 @@ produces:
 paths:
   /comments:
     post:
-      summary: Creates a new comment
+      summary: Crea un nuevo comentario
       operationId: createComment
       parameters:
-        - name: comment
+        - name: message
           in: body
           required: true
-          description: Course Object
+          description: Comment Object
           schema:
-            $ref: '#/definitions/CourseInput'
+            $ref: '#/definitions/CommentInput'
       responses:
         '201':
           description: Created
@@ -39,13 +39,13 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
     get:
-      summary: Returns all courses
-      operationId: getAllCourses
+      summary: Regresa todos los comentarios
+      operationId: getComments
       responses:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/CoursesList'
+            $ref: '#/definitions/CommentList'
         '406':
           description: Not Acceptable (Invalid Params)
           schema:
@@ -55,21 +55,21 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
 
-  /courses/{code}:
+  /comments/{code}:
     get:
-      summary: Returns a course with the given code
-      operationId: getCourseByCode
+      summary: Regresa un comentario con el código dado
+      operationId: getCommentByCode
       parameters:
         - name: code
           in: path
-          description: The code of the course to be returned
+          description: El código del comentario a ser retornado
           required: true
           type: integer
       responses:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/Course'
+            $ref: '#/definitions/Comment'
         '404':
           description: Not Found
           schema:
@@ -84,20 +84,20 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
     put:
-      summary: Updates a course with the given code
-      operationId: updateCourse
+      summary: Actualiza un comentario con el código dado
+      operationId: updateComment
       parameters:
         - name: code
           in: path
-          description: The code of the course to be updated
+          description: El código del comentario para ser actualizado
           required: true
           type: integer
-        - name: course
+        - name: message
           in: body
           required: true
-          description: Course Object
+          description: Comment Object
           schema:
-            $ref: '#/definitions/CourseInput'
+            $ref: '#/definitions/CommentInput'
       responses:
         '204':
           description: No Content
@@ -115,12 +115,12 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
     delete:
-      summary: Deletes a course with the given code
-      operationId: deleteCourse
+      summary: Eliminar un comentario con el código dado
+      operationId: deleteComment
       parameters:
         - name: code
           in: path
-          description: The code of the course to be deleted
+          description: El código del comentario a ser eliminado
           required: true
           type: integer
       responses:
@@ -141,26 +141,46 @@ paths:
 
 definitions:
 
-  # Courses
-  Course:
+  # Comments
+  Comment:
     type: object
+    required:
+      - message
+      - image_id
+      - version_id
     properties:
       code:
         type: integer
-      name:
+      message:
         type: string
-      credits:
+      image_id:
+        type: integer
+      version_id:
+        type: integer
+      likes:
+        type: integer
+      created_by:
+        type: integer
+      created_at:
         type: integer
 
-  CourseInput:
+  CommentInput:
     type: object
+    required:
+      - message
+      - image_id
+      - version_id
     properties:
-      name:
+      message:
         type: string
-      credits:
+      image_id:
+        type: integer
+      version_id:
+        type: integer
+      likes:
         type: integer
 
-  CoursesList:
+  CommentList:
     type: object
     required:
       - total
@@ -171,7 +191,7 @@ definitions:
       list:
         type: array
         items:
-          $ref: '#/definitions/Course'
+          $ref: '#/definitions/Comment'
 
 # Errors
   ErrorModel:
@@ -186,3 +206,4 @@ definitions:
         type: number
       description:
         type: object
+

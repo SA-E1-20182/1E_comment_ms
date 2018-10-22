@@ -1,15 +1,18 @@
 package models
 
 import (
+	"time"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type (
 	Comment struct {
 		Id         	bson.ObjectId 	`bson:"_id,omitempty" json:"id"`
-		author_id  	string        	`json:"author_id"`
-		image_id  	string        	`json:"image_id"`
-		text		string        	`json:"text"`
-		created_at  string     		`json:"created_at"`
+		version_id  int	        	`json:"version_id"`
+		image_id  	int		       	`json:"image_id"`
+		message		string        	`json:"message"`
+		likes		int	        	`json:"likes"`
+		created_by  string     		`json:"created_by"`
+		created_at  time.Time     	`json:"created_at,omitempty"`
 	}
 )

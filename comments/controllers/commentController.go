@@ -1,10 +1,13 @@
 package controllers
 
 import (
+
 	"encoding/json"
 	"net/http"
+	"github.com/gorilla/mux"
 	"krajono/comments/common"
 	"krajono/comments/data"
+	"gopkg.in/mgo.v2"
 )
 
 // Handler for HTTP Post - "/comments"
@@ -55,4 +58,65 @@ func GetComments(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
+}
+// Handler for HTTP Get - "/comments/{id}"
+// Get comment by id
+func GetCommentById(w http.ResponseWriter, r *http.Request) {
+	// Get id from incoming url
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	// create new context
+	context := NewContext()
+	defer context.Close()
+	c := context.DbCollection("comments")
+	repo := &data.CommentRepository{c}
+
+	// Get comment by id
+	comment, err := repo.GetById(id)
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		} else {
+			common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
+			return
+		}
+	}
+
+	j, err := json.Marshal(CommentResource{Data: comment})
+	if err != nil {
+		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(j)
+}
+
+// Handler for HTTP Delete - "/comments/{id}"
+// Delete comment by id
+func DeleteComment(rw http.ResponseWriter, req *http.Request) {
+	// Get id from incoming url
+	vars := mux.Vars(req)
+	id := vars["id"]
+
+	// Create new context
+	context := NewContext()
+	defer context.Close()
+	c := context.DbCollection("comments")
+	repo := &data.CommentRepository{c}
+
+	err := repo.Delete(id)
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			rw.WriteHeader(http.StatusNotFound)
+			return
+		} else {
+			common.DisplayAppError(rw, err, "An unexpected error has occurred", 500)
+			return
+		}
+	}
+	rw.WriteHeader(http.StatusNoContent)
 }
