@@ -1,5 +1,5 @@
 {
-  "Server"      : "35.196.22.171:27017",
+  "Server"      : "localhost:27017",
   "MongoDBHost" : "db",
   "MongoDBUser"	: "",
   "MongoDBPwd"	: "",
