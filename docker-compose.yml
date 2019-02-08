@@ -1,17 +1,17 @@
 version: '2'
 services:
-  comments:
+  comment-ms:
     build: ./comments
-    container_name: comment_ms
+    # container_name: comment_ms
     depends_on:
-      - db
+      - comment-db
     links:
-      - db
+      - comment-db
     ports:
       - "4100:4100"
-  db:
+  comment-db:
     image: mongo:3.3
-    container_name: comment_db
+    # container_name: comment_db
     ports:
       - "27017:27017"
     volumes:
