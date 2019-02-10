@@ -1,5 +1,5 @@
 {
-  "Server"      : "comment_db:27017",
+  "Server"      : "comment-db:27017",
   "MongoDBHost" : "db",
   "MongoDBUser"	: "",
   "MongoDBPwd"	: "",
