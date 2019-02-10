@@ -1,18 +1,22 @@
 version: '2'
 services:
-  comment-ms:
+  comments:
     build: ./comments
-    # container_name: comment_ms
+    container_name: comment-ms
     depends_on:
-      - comment-db
+      - db
     links:
-      - comment-db
+      - db
     ports:
       - "4100:4100"
-  comment-db:
+    #   - MONGO_URI=127.0.0.1:27018
+    network_mode: "host"
+  db:
     image: mongo:3.3
-    # container_name: comment_db
+    container_name: comment-db
+    command: mongod --port 27018
     ports:
-      - "27017:27017"
-    volumes:
-      - ./backup:/backup:rw
+      - "27018:27018"
+    # environment:
+    #   - MONGO_URI=127.0.0.1:27018
+    network_mode: "host"
